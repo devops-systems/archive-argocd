@@ -11,6 +11,8 @@ spec:
         url: https://kubernetes.default.svc
       - namespace: stg
         url: https://kubernetes.default.svc
+  syncPolicy:
+      preserveResourcesOnDeletion: true
   template:
     metadata:
       name: '{{namespace}}-helm-web'
