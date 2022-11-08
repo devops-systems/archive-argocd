@@ -16,6 +16,9 @@ spec:
       automated:
         prune: true
         selfHeal: true
+      syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
   template:
     metadata:
       name: '{{namespace}}-helm-web'
