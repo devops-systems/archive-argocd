@@ -14,9 +14,9 @@ spec:
   syncPolicy:
       preserveResourcesOnDeletion: true
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+      automated:
+          prune: true
+          selfHeal: true
   template:
     metadata:
       name: '{{namespace}}-helm-web'
