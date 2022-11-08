@@ -13,10 +13,6 @@ spec:
         url: https://kubernetes.default.svc
   syncPolicy:
       preserveResourcesOnDeletion: true
-  syncPolicy:
-      automated:
-          prune: true
-          selfHeal: true
   template:
     metadata:
       name: '{{namespace}}-helm-web'
