@@ -8,11 +8,11 @@ metadata:
   - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: argocd
+    namespace: dev
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: argocd/my-apps/app-1
+    path: example2
     repoURL: https://github.com/devops-systems/argocd-test.git
     targetRevision: master
     helm:
