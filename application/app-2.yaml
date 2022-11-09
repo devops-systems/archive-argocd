@@ -9,9 +9,13 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: argocd/my-apps/app-2
-    repoURL: https://gitlab.com/ayush-sharma/example-assets.git
-    targetRevision: HEAD
+    path: argocd/my-apps/app-1
+    repoURL: https://github.com/devops-systems/argocd-test.git
+    targetRevision: master
+    helm:
+      valueFiles:
+        - web/values.yaml
+        - web/stg/values.yaml
   # Sync policy
   syncPolicy:
     automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
