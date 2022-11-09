@@ -11,7 +11,7 @@ spec:
   source:
     path: example2
     repoURL: https://github.com/devops-systems/argocd-test.git
-    targetRevision: master
+    targetRevision: main
     helm:
       valueFiles:
         - web/values.yaml
