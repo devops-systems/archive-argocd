@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/devops-systems/archive-argocd.git
     targetRevision: HEAD
-    path: helm
+    path: app2
   destination:
     server: https://kubernetes.default.svc
     namespace: prod
