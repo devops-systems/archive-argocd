@@ -14,3 +14,7 @@ spec:
     path: example2
     repoURL: {{ .Values.spec.source.repoURL }}
     targetRevision: {{ .Values.spec.source.targetRevision }}
+    helm:
+      valueFiles:
+        - web/values.yaml
+        - web/dev/values.yaml
