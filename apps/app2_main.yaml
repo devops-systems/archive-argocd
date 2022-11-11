@@ -16,5 +16,34 @@ spec:
     targetRevision: {{ .Values.spec.source.targetRevision }}
     helm:
       valueFiles:
-        - config/values.yaml
-        - config/{{ .Values.spec.destination.namespace }}/values.yaml
+        - values.yaml
+        
+        
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app2
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    path: .infra/
+    repoURL: https://github.com/devops-systems/app2.git
+    targetRevision: main
+    helm:
+      valueFiles:
+        - values.yaml
+      values: |
+        container:
+          tag: "v3.0"
+  destination:
+    namespace: prod
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
