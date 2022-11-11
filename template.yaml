@@ -6,20 +6,16 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: previews
+  project: "{{.PROJECT_ID}}"
   source:
-    path: helm
-    repoURL: https://github.com/vfarcic/{{.REPO}}.git
-    targetRevision: HEAD
+    path: .infra/
+    repoURL: https://github.com/devops-systems/{{.REPO}}.git
+    targetRevision: "{{.BRANCH}}"
     helm:
-      values: |
-        image:
-          tag: "{{.IMAGE_TAG}}"
-        ingress:
-          host: "{{.HOSTNAME}}"
-      version: v3
+      valueFiles:
+        - values.yaml
   destination:
-    namespace: "{{.APP_ID}}"
+    namespace: "{{.BRANCH}}"
     server: https://kubernetes.default.svc
   syncPolicy:
     automated:
