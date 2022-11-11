@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: main
+  name: previews
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: default
+  project: prod
   source:
-    repoURL: https://github.com/devops-systems/archive-argocd.git
+    repoURL: https://github.com/devops-systems/argocd-gitops.git
     targetRevision: HEAD
     path: app2
   destination:
@@ -18,5 +18,3 @@ spec:
     automated:
       selfHeal: true
       prune: true
-    syncOptions:
-    - CreateNamespace=true
