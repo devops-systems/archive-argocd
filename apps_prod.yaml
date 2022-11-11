@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: previews
+  name: apps_prod
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -9,8 +9,8 @@ spec:
   project: prod
   source:
     repoURL: https://github.com/devops-systems/argocd-gitops.git
-    targetRevision: HEAD
-    path: app2
+    targetRevision: main
+    path: apps
   destination:
     server: https://kubernetes.default.svc
     namespace: prod
