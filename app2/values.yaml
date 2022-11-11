@@ -1,7 +1,0 @@
-spec:
-  destination:
-    namespace: prod
-    server: https://kubernetes.default.svc
-  source:
-    repoURL: https://github.com/devops-systems/argocd-test
-    targetRevision: HEAD
