@@ -14,6 +14,9 @@ spec:
     helm:
       valueFiles:
         - values.yaml
+      values: |
+        container:
+          tag: "{{.IMAGE_TAG}}"
   destination:
     namespace: "{{.BRANCH}}"
     server: https://kubernetes.default.svc
