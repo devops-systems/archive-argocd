@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "{{.APP_ID}}"
+  name: "{{.REPO}}"
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,12 +10,12 @@ spec:
   source:
     path: .infra/
     repoURL: https://github.com/devops-systems/{{.REPO}}.git
-    targetRevision: "{{.BRANCH}}"
+    targetRevision: HEAD
     helm:
       valueFiles:
         - values.yaml
   destination:
-    namespace: "{{.NAMESPACE}}"
+    namespace: prod
     server: https://kubernetes.default.svc
   syncPolicy:
     automated:
