@@ -6,14 +6,14 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: prod
+  project: default
   source:
     repoURL: https://github.com/devops-systems/argocd-gitops.git
     targetRevision: main
     path: apps
   destination:
     server: https://kubernetes.default.svc
-    namespace: prod
+    namespace: argocd
   syncPolicy:
     automated:
       selfHeal: true
