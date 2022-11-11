@@ -6,7 +6,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: default
+  project: prod
   source:
     path: .infra/
     repoURL: https://github.com/devops-systems/app2.git
