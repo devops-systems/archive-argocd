@@ -10,7 +10,7 @@ spec:
   source:
     path: .infra/
     repoURL: https://github.com/devops-systems/{{.REPO}}.git
-    targetRevision: HEAD
+    targetRevision: main
     helm:
       valueFiles:
         - values.yaml
