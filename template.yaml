@@ -6,7 +6,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: "{{.PROJECT_ID}}"
+  project: default
   source:
     path: .infra/
     repoURL: https://github.com/devops-systems/{{.REPO}}.git
