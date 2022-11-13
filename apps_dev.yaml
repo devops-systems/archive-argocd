@@ -3,8 +3,6 @@ kind: Application
 metadata:
   name: sync-apps-dev
   namespace: argocd
-  labels:
-    name: "app.kubernetes.io/instance=sync-apps-dev"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
