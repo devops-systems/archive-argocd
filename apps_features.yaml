@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: sync-apps-features
   namespace: argocd
+  labels:
+    name: sync-app
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
