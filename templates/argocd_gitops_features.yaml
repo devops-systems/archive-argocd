@@ -18,7 +18,7 @@ spec:
         container:
           tag: $IMAGE_TAG
   destination:
-    namespace: $BRANCH
+    namespace: $NAMESPACE
     server: https://kubernetes.default.svc
   syncPolicy:
     automated:
