@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "{{.REPO}}-{{.BRANCH}}"
+  name: $REPO-$BRANCH
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -9,16 +9,16 @@ spec:
   project: default
   source:
     path: .infra/
-    repoURL: https://github.com/devops-systems/{{.REPO}}.git
-    targetRevision: "{{.BRANCH}}"
+    repoURL: https://github.com/devops-systems/$REPO.git
+    targetRevision: $BRANCH
     helm:
       valueFiles:
         - values.yaml
       values: |
         container:
-          tag: "{{.IMAGE_TAG}}"
+          tag: $IMAGE_TAG
   destination:
-    namespace: "{{.BRANCH}}"
+    namespace: $BRANCH
     server: https://kubernetes.default.svc
   syncPolicy:
     automated:
