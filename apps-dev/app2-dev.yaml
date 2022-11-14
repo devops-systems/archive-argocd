@@ -16,7 +16,7 @@ spec:
         - values.yaml
       values: |
         container:
-          tag: $IMAGE_TAG
+          tag: latest
   destination:
     namespace: dev
     server: https://kubernetes.default.svc
