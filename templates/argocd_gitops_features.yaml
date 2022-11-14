@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: $REPO-$BRANCH
+  name: $REPO-$CLEAN_BRANCH
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -18,7 +18,7 @@ spec:
         container:
           tag: $IMAGE_TAG
   destination:
-    namespace: $NAMESPACE
+    namespace: $CLEAN_BRANCH
     server: https://kubernetes.default.svc
   syncPolicy:
     automated:
