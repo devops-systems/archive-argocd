@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app2-do920
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    path: .infra/
+    repoURL: https://github.com/devops-systems/app2.git
+    targetRevision: DO-920
+    helm:
+      valueFiles:
+        - values.yaml
+      values: |
+        container:
+          tag: latest
+  destination:
+    namespace: do920
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
