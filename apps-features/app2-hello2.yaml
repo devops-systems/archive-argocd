@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app2-hello2
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    path: .infra/
+    repoURL: https://github.com/devops-systems/app2.git
+    targetRevision: hello2
+    helm:
+      valueFiles:
+        - values.yaml
+      values: |
+        container:
+          tag: latest
+  destination:
+    namespace: hello2
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
