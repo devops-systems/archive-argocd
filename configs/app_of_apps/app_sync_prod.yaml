@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: sync-apps-prod
+  name: app-sync-prod
   namespace: argocd
   labels:
-    name: sync-app
+    name: app-sync
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:

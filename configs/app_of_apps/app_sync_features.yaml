@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: sync-apps-dev
+  name: app-sync-features
   namespace: argocd
   labels:
-    name: sync-app
+    name: app-sync
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -12,7 +12,7 @@ spec:
   source:
     repoURL: https://github.com/devops-systems/argocd-gitops.git
     targetRevision: main
-    path: apps-dev
+    path: apps-features
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
