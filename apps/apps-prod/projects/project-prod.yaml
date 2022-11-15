@@ -3,16 +3,12 @@ kind: AppProject
 metadata:
   name: project-prod
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   description: Project Prod
   sourceRepos:
   - '*'
   destinations:
   - namespace: prod
-    server: https://kubernetes.default.svc
-  - namespace: argocd
     server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   - group: ''

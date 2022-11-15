@@ -8,11 +8,13 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: default
+  project: project-sync
   source:
     repoURL: https://github.com/devops-systems/argocd-gitops.git
     targetRevision: main
-    path: apps-features
+    path: apps/apps-features
+    directory:
+      recurse: true
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
