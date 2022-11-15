@@ -1,13 +1,15 @@
-# Github Actions
-
 name: ARGOCD GITOPS
 
-on: [create, delete] # runs your workflow when someone creates/deletes a Git reference (Git branch or tag) in the workflow's repository.
-
+on: 
+  workflow_dispatch: # manual run of action
+  create: # runs your workflow when someone creates a Git reference (Git branch or tag) in the workflow's repository.
+  delete: # runs your workflow when someone deletes a Git reference (Git branch or tag) in the workflow's repository.
+  
+  
 jobs:
   gitops: 
     name: ArgoCD GitOps
-    if: github.event.ref_type == 'branch' # checking that action was not triggered by tag
+    if: github.event.ref_type == 'branch' || github.event_name == 'workflow_dispatch' # checking that action was not triggered by tag, or manually run workflow
     runs-on: 'ubuntu-latest'
     steps:
     
@@ -21,17 +23,20 @@ jobs:
           
       - name: Generate variables                 
         run: |
-          if [ ${{ github.event.ref }} == 'main' ] 
+          echo "REPO=${{ github.event.repository.name }}" >> $GITHUB_ENV # need for envsubst templates
+          if [ ${{ github.ref_name }} == 'main' ] && [ ${{ github.event.ref }} == 'refs/heads/main' ]
           then
             echo "ARGOCD_APPLICATION_TEMP_FILE=configs/templates/argocd_gitops_prod.yaml" >> $GITHUB_ENV
             echo "ARGOCD_APPLICATION_FOLDER=apps/apps-prod" >> $GITHUB_ENV
-            echo "CLEAN_BRANCH=${{ github.event.ref }}" >> $GITHUB_ENV # need for file name
+            echo "CLEAN_BRANCH=${{ github.ref_name }}" >> $GITHUB_ENV # need for file name
+            echo "BRANCH=${{ github.ref_name }}" >> $GITHUB_ENV # need for envsubst templates
           elif [ ${{ github.event.ref }} == 'dev' ]
           then
             echo "ARGOCD_APPLICATION_TEMP_FILE=configs/templates/argocd_gitops_dev.yaml" >> $GITHUB_ENV
             echo "ARGOCD_APPLICATION_FOLDER=apps/apps-dev" >> $GITHUB_ENV
             echo "IMAGE_TAG=latest" >> $GITHUB_ENV # need for envsubst templates
             echo "CLEAN_BRANCH=${{ github.event.ref }}" >> $GITHUB_ENV # need for file name
+            echo "BRANCH=${{ github.event.ref }}" >> $GITHUB_ENV # need for envsubst templates
           else
             echo "ARGOCD_APPLICATION_TEMP_FILE=configs/templates/argocd_gitops_features.yaml" >> $GITHUB_ENV
             echo "ARGOCD_APPLICATION_FOLDER=apps/apps-features" >> $GITHUB_ENV
@@ -39,12 +44,11 @@ jobs:
             export CLEAN_BRANCH=${{ github.event.ref }} # need for envsubst templates and file name
             export CLEAN_BRANCH=${CLEAN_BRANCH//[^[:alnum:]]/} # remove special characters
             echo "CLEAN_BRANCH=${CLEAN_BRANCH,,}" >> $GITHUB_ENV # move in lowercase
+            echo "BRANCH=${{ github.event.ref }}" >> $GITHUB_ENV # need for envsubst templates
           fi
-          echo "REPO=${{ github.event.repository.name }}" >> $GITHUB_ENV # need for envsubst templates
-          echo "BRANCH=${{ github.event.ref }}" >> $GITHUB_ENV # need for envsubst templates
           
       - name: Generate application file 
-        if: github.event_name == 'create'
+        if: github.event_name == 'create' || github.event_name == 'workflow_dispatch'
         working-directory: gitops
         run: |
           envsubst "$(printf '${%s} ' $(env | cut -d'=' -f1))" < $ARGOCD_APPLICATION_TEMP_FILE > $ARGOCD_APPLICATION_FOLDER/$REPO-$CLEAN_BRANCH.yaml
