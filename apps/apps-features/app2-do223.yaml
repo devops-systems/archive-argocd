@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: do223
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app2-do223
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: project-features
+  source:
+    path: .infra/
+    repoURL: https://github.com/devops-systems/app2.git
+    targetRevision: DO-223
+    helm:
+      valueFiles:
+        - values.yaml
+      values: |
+        container:
+          tag: latest
+  destination:
+    namespace: do223
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
