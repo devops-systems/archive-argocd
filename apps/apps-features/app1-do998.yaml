@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: do998
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app1-do998
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: project-features
+  source:
+    path: .infra/
+    repoURL: https://github.com/devops-systems/app1.git
+    targetRevision: DO-998
+    helm:
+      valueFiles:
+        - values.yaml
+      values: |
+        container:
+          tag: latest
+  destination:
+    namespace: do998
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
