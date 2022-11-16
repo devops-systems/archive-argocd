@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: puc110
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app2-puc110
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: project-features
+  source:
+    path: .infra/
+    repoURL: https://github.com/devops-systems/app2.git
+    targetRevision: PUC-110
+    helm:
+      valueFiles:
+        - values.yaml
+      values: |
+        container:
+          tag: latest
+  destination:
+    namespace: puc110
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
